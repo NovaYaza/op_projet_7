@@ -1,0 +1,152 @@
+*,
+*:after,
+*:before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+/* Couleurs */
+--primary: #1B1B1B;
+--secondary: #FFD15B;
+--background: #ededed;
+--background_card: #fff;
+--quantity_card: #7A7A7A;
+--keypoint_card: #7A7A7A;
+--time_recipe: #FFD15B;
+}
+
+/*** Modifs général ***/
+h1, h2, h3 {
+    font-family: "Anton", sans-serif;
+}
+
+/*** Modifs body ***/
+body {
+    font-family: "Manrope", sans-serif;
+    background-color: var(--background);
+}
+
+/*** Modifs header ***/
+header {
+    position: relative;
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("/assets/images/img_header.jpeg");
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat;
+}
+
+header h1 {
+    color: var(--secondary);
+    width: 60%;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 2.8em;
+    margin-bottom: 20px;
+}
+
+.logo {
+    position: absolute;
+    width: 200px;
+    top: 40px;
+    left: 40px;
+}
+
+.container_header {
+    padding: 200px 0px;
+}
+
+/* barre de recherche */
+.search_container {
+    position: relative;
+    width: 80%;
+    margin: 0 auto;
+}
+
+#search_bar {
+    width: 100%;
+    padding: 18px;
+    border: none;
+    border-radius: 11px;
+}
+
+.btn_searchbar {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 12px 14px;
+    border: none;
+    background-color: var(--primary);
+    color: white;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.btn_searchbar:hover {
+    background-color: var(--secondary);
+}
+
+/*** Modifs compteurs de recettes ***/
+#nombre_recettes {
+    text-align: end;
+    margin: 50px 40px 0px 0px;
+    font-family: "Anton", sans-serif;
+    font-size: 1.3em;
+}
+
+/*** Modifs recettes ***/
+#recettes_container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: center;
+    margin: 50px 20px 0px 20px;
+}
+
+.recettes {
+    position: relative;
+    width: 380px;
+    height: 730px;
+    background-color: var(--background_card);
+    border-radius: 21px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.recettes img {
+    width: 380px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 21px 21px 0px 0px;
+}
+
+.recettes_textpart {
+    padding: 25px;
+}
+
+.time_recette {
+    position: absolute;
+    margin: 21px 0px 0px 295px;
+    background-color: var(--time_recipe);
+    padding: 5px 15px 5px 15px;
+    border-radius: 14px;
+    font-size: 0.75em;
+}
+
+.recettes h2 {
+    font-size: 1.1em;
+}
+
+.recettes p {
+    font-size: 0.9em;
+}
+
+.keypoint_recette {
+    font-size: 0.75em;
+    color: var(--keypoint_card);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin: 30px 0px 15px 0px;
+}

@@ -1,12 +1,34 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+    <script src="/data/recipes.js" defer></script>
+    <script src="/scripts/Vue.js" defer></script>
+    <script src="/scripts/dropdown.js" defer></script>
+    <script type="module" src="/scripts/main.js" defer></script>
     <title>Les petits plats</title>
 </head>
+
 <body>
-    
+    <header>
+        <img class="logo" src="assets/images/logo.png" alt="les petits plats">
+        <div class="container_header">
+            <h1>CHERCHEZ PARMI PLUS DE 1500 RECETTES DU QUOTIDIEN, SIMPLES ET DÉLICIEUSES</h1>
+            <div class="search_container">
+                <input type="text" id="search_bar" placeholder="Rechercher une recette, un ingredients...">
+                <button class="btn_searchbar" onclick="search()"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+        </div>
+    </header>
+    <div id="dropdown-container"></div>
+    <div id="nombre_recettes"></div>
+    <div id="recettes_container"></div>
 </body>
+
 </html>
