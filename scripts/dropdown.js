@@ -1,9 +1,7 @@
 class Dropdown {
-    constructor(options) {
+    constructor() {
         // Conteneur où le dropdown sera ajouté
         this.container_dropdown = document.getElementById("dropdown-container");
-        // Options à afficher dans le dropdown (ingrédients, appliance ou ustensils)
-        this.options = options;
         
         // Création du dropdown dès l'instanciation de la classe
         this.createDropdown();
@@ -17,9 +15,25 @@ class Dropdown {
         const divDropdown = document.createElement("div");
         divDropdown.classList.add("dropdown");
         divDropdown.innerHTML = `
-            <span>Test</span>
-            <div class="dropdown-content">
-                <p>Liste</p>
+            <div class="dropdown">
+                <input type="checkbox" id="dropdown-toggle">
+                <label for="dropdown-toggle" class="dropdown-btn">
+                    Ingrédients
+                    <span class="arrow"><i class="fa-solid fa-chevron-down"></i></span>
+                </label>
+                <div class="dropdown-content">
+                    <div class="search-container">
+                        <input type="text" class="search-bar">
+                        <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+                    </div>
+                    <ul>
+                    <li>Tomates</li>
+                    <li>Oignons</li>
+                    <li>Laitue</li>
+                    <li>Fromage</li>
+                    <li>Pain</li>
+                    </ul>
+                </div>
             </div>
         `;
         this.container_dropdown.appendChild(divDropdown);

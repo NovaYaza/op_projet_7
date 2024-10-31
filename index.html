@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
     <script src="/data/recipes.js" defer></script>
     <script src="/scripts/Vue.js" defer></script>
+    <script src="/scripts/model.js" defer></script>
     <script src="/scripts/dropdown.js" defer></script>
     <script type="module" src="/scripts/main.js" defer></script>
     <title>Les petits plats</title>
@@ -26,9 +27,13 @@
             </div>
         </div>
     </header>
-    <div id="dropdown-container"></div>
-    <div id="nombre_recettes"></div>
-    <div id="recettes_container"></div>
+    <div class="container-main">
+        <div class="dropdown-totalRecettes">
+            <div id="dropdown-container"></div>
+            <div id="nombre_recettes"></div>
+        </div>
+        <div id="recettes_container"></div>
+    </div>
 </body>
 
 </html>

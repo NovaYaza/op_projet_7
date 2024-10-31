@@ -15,6 +15,8 @@
 --quantity_card: #7A7A7A;
 --keypoint_card: #7A7A7A;
 --time_recipe: #FFD15B;
+--background_dropdown: #fff;
+--searchbar_dropdown : #C6C6C6;
 }
 
 /*** Modifs général ***/
@@ -88,10 +90,22 @@ header h1 {
     background-color: var(--secondary);
 }
 
+/*** Modifs container principal (dropdown, total recettes, recettes) ***/
+.container-main {
+    max-width: 90%;
+    margin: auto;
+}
+
+/*** Modifs container total recettes + dropdown ***/
+.dropdown-totalRecettes {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 25px 40px 0px 40px;
+}
+
 /*** Modifs compteurs de recettes ***/
 #nombre_recettes {
-    text-align: end;
-    margin: 50px 40px 0px 0px;
     font-family: "Anton", sans-serif;
     font-size: 1.3em;
 }
@@ -102,7 +116,7 @@ header h1 {
     flex-wrap: wrap;
     gap: 40px;
     justify-content: center;
-    margin: 50px 20px 0px 20px;
+    margin-top: 50px;
 }
 
 .recettes {
@@ -150,3 +164,109 @@ header h1 {
     letter-spacing: 0.1em;
     margin: 30px 0px 15px 0px;
 }
+
+
+/*** Dropdown ***/
+/* Container du dropdown */
+.dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Input checkbox caché */
+  #dropdown-toggle {
+    display: none;
+  }
+  
+  /* Bouton du dropdown */
+  .dropdown-btn {
+    background-color: var(--background_dropdown);
+    color: var(--primary);
+    padding: 17px 16px;
+    border: none;
+    border-radius: 11px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Style de la flèche */
+  .arrow {
+    margin-left: 40px;
+    font-size: 16px;
+    transition: transform 0.5s;
+  }
+  
+  /* Contenu du dropdown caché par défaut */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--background_dropdown);
+    border: none;
+    border-radius: 0px 0px 11px 11px;
+    width: 100%;
+    z-index: 1;
+    margin-top: -10px;
+  }
+
+  /* Barre de recherche */
+  .search-container {
+    max-width: 93%;
+    position: relative;
+  }
+
+  .search-bar {
+    width: calc(100% - 20px);
+    padding: 8px 10px;
+    margin: 16px;
+    border: 1px solid var(--searchbar_dropdown);
+    border-radius: 2px;
+    font-size: 14px;
+    color: var(--searchbar_dropdown);
+    caret-color: var(--searchbar_dropdown);
+  }
+
+  .search-bar:focus {
+    outline: none;
+  }
+
+  /* Icône de loupe */
+  .search-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: var(--searchbar_dropdown);
+    pointer-events: none; /* Pour cliquer à travers l'icône */
+  }
+  
+  /* Style de la liste */
+  .dropdown-content ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .dropdown-content ul li {
+    padding: 6px 0px 6px 16px;
+    font-size: 14px;
+    color: var(--primary);
+    cursor: pointer;
+  }
+  
+  .dropdown-content ul li:hover {
+    background-color: var(--secondary);
+  }
+  
+  /* Montrer le dropdown lorsque le checkbox est coché */
+  #dropdown-toggle:checked + .dropdown-btn + .dropdown-content {
+    display: block;
+  }
+  
+  /* Faire pointer la flèche vers le haut lorsque le dropdown est déroulé */
+  #dropdown-toggle:checked + .dropdown-btn .arrow {
+    transform: rotate(180deg);
+  }
