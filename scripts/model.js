@@ -12,7 +12,8 @@ class Model {
                 }
             }
         }
-        console.log(newIngredientsList);
+        /* console.log(newIngredientsList); */
+        return newIngredientsList;
     }
 
     getUstensilsList(recipes) {
@@ -26,7 +27,8 @@ class Model {
                 }
             });
         }
-        console.log(newUstensilsList);
+        /* console.log(newUstensilsList); */
+        return newUstensilsList;
     }
 
     getAppliancesList(recipes) {
@@ -38,7 +40,8 @@ class Model {
                     newAppliancesList.push(applianceName);
                 }
         }
-        console.log(newAppliancesList);
+        /* console.log(newAppliancesList); */
+        return newAppliancesList;
     }
 
     /* test() {
@@ -52,3 +55,4 @@ class Model {
         console.log(listIngredients);
     } */
 }
+

@@ -25,7 +25,7 @@ class Vue {
             <div class="recettes_textpart">
                 <h2>${recipe.name}</h2>
                 <p class="keypoint_recette">RECETTE</p>
-                <p>${recipe.description}</p>
+                <p class="recipe_description">${recipe.description}</p>
                 <ul id="ingredients-list"></ul>
                 <p class="keypoint_recette">INGRÉDIENTS</p>
                 <ul>${this.afficherIngredients(recipe.ingredients)}</ul>
@@ -33,6 +33,9 @@ class Vue {
         `;
       this.container_recipes.appendChild(div);
     });
+
+    // Appel de la méthode pour tronquer chaque description de recette
+    this.maxTextLengthRecipeDescription()
   }
 
   // Fonction qui parcourt les ingrédients
@@ -54,5 +57,20 @@ class Vue {
       }
     });
     return ingredientsHTML; // On retourne le HTML des ingrédients
+  }
+
+  maxTextLengthRecipeDescription() {
+    // Nombre maximal de caractères
+    const maxChars = 180;
+
+    // Sélectionne le paragraphe contenant la description de la recette
+    const descriptions = document.querySelectorAll(".recipe_description");
+
+    // Vérifie et tronque le texte si nécessaire
+    descriptions.forEach((paragraphe) => {
+      if (paragraphe.textContent.length > maxChars) {
+        paragraphe.textContent = paragraphe.textContent.slice(0, maxChars) + "...";
+      }
+    });
   }
 }
