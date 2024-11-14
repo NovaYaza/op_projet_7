@@ -1,11 +1,12 @@
 class Dropdown {
-    constructor(title, listItems) {
+    constructor(title, listItems, callbackFunction) {
         // Conteneur où le dropdown sera ajouté
         this.container_dropdown = document.getElementById("dropdown-container");
         
         this.title = title;
         this.listItems = listItems;
         this.filteredItems = listItems; // Liste des éléments filtrés
+        this.callbackFunction = callbackFunction;
 
         // Création du dropdown dès l'instanciation de la classe
         this.createDropdown();
@@ -85,6 +86,7 @@ class Dropdown {
         items.forEach(item => {
             item.addEventListener("click", () => {
                 console.log(item.textContent); // Affiche le texte de l'élément dans la console
+                this.callbackFunction(this.title, item.textContent);
             });
         });
     }

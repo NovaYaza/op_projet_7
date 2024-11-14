@@ -1,4 +1,4 @@
-// Appel initial pour afficher toutes les recettes
+/* // Appel initial pour afficher toutes les recettes
 let vue = new Vue();
 vue.afficherRecettes(recipes);
 
@@ -10,11 +10,14 @@ let ustensilsList = model.getUstensilsList(recipes);
 let appliancesList = model.getAppliancesList(recipes);
 
 // Appel initial pour afficher les dropdowns
-let dropdownIngredients = new Dropdown("Ingrédients", ingredientsList);
+let dropdownIngredients = new Dropdown("Ingrédients", ingredientsList, (typeDropdown, value) => {addFilterChoice(typeDropdown, value)});
 let dropdownAppliances = new Dropdown("Appareils", appliancesList);
 let dropdownUstensils = new Dropdown("Ustensiles", ustensilsList);
 
-/* model.getIngredientsList(recipes);
-model.getUstensilsList(recipes);
-model.getAppliancesList(recipes);
-model.test(); */
+function addFilterChoice(typeDropdown, value) {
+    console.log(typeDropdown, value);
+} */
+
+let vue = new Vue();
+let model = new Model();
+let vueModel = new VueModel(vue, model);

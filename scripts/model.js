@@ -43,16 +43,6 @@ class Model {
         /* console.log(newAppliancesList); */
         return newAppliancesList;
     }
-
-    /* test() {
-        let listIngredients = ["pomme", "poire", "sucre"];
-        let ingredientATester = "sel";
-        console.log(listIngredients.indexOf(ingredientATester));
-        if (listIngredients.indexOf(ingredientATester) == -1) {
-            console.log("Je n'ai pas trouvé " + ingredientATester);
-            listIngredients.push(ingredientATester);
-        }
-        console.log(listIngredients);
-    } */
+    
 }
 
