@@ -17,6 +17,7 @@
 --time_recipe: #FFD15B;
 --background_dropdown: #fff;
 --searchbar_dropdown : #C6C6C6;
+--background_tag: #FFD15B;
 }
 
 /*** Modifs général ***/
@@ -270,3 +271,30 @@ header h1 {
   .dropdown-content ul li:hover {
     background-color: var(--secondary);
   }
+
+  /*** Tags ***/
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 10px;
+    margin-left: 40px;
+    border-radius: 5px;
+    font-size: 14px;
+    color: white;
+}
+
+  .tag-style {
+    background-color: var(--background_tag);
+    color: var(--primary);
+    padding: 14px 16px;
+    border-radius: 10px;
+}
+
+.remove-tag {
+    margin-left: 40px;
+    background: none;
+    border: none;
+    color: var(--primary);
+    font-weight: bold;
+    cursor: pointer;
+}

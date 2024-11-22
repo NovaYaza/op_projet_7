@@ -2,7 +2,11 @@ class Vue {
   constructor() {
     this.container_recipes = document.getElementById("recettes_container");
     this.containerNombreRecettes = document.getElementById("nombre_recettes");
+
+    // Conteneur pour les tags
+    this.containerTags = document.getElementById("tags-container");
   }
+  
   // Fonction pour afficher les recettes et mettre à jour le compteur de recettes
   afficherRecettes(recettes) {
     // Vider le conteneur de recettes
@@ -15,7 +19,7 @@ class Vue {
     }`;
 
     // On parcourt toutes les recettes et on les affiche
-    recipes.forEach((recipe) => {
+    recettes.forEach((recipe) => {
       const div = document.createElement("div");
       const image = `assets/images/${recipe.image}`;
       div.classList.add("recettes");
@@ -36,6 +40,36 @@ class Vue {
 
     // Appel de la méthode pour tronquer chaque description de recette
     this.maxTextLengthRecipeDescription()
+  }
+
+  // Méthode pour afficher les tags
+  afficherTags(ingredients, appliances, ustensils, removeCallback) {
+    this.containerTags.innerHTML = "";
+
+    const types = [
+      { items: ingredients, className: "tag-style", type: "Ingrédients" },
+      { items: appliances, className: "tag-style", type: "Appareils" },
+      { items: ustensils, className: "tag-style", type: "Ustensiles" },
+    ];
+
+    types.forEach(({ items, className, type }) => {
+      items.forEach((item) => {
+        const tag = document.createElement("span");
+        tag.classList.add("tag", className);
+        tag.textContent = item;
+
+        // Bouton de suppression
+        const removeButton = document.createElement("button");
+        removeButton.innerHTML = "&times;";
+        removeButton.classList.add("remove-tag");
+        removeButton.onclick = () => {
+          removeCallback(type, item); // Appel du callback avec le type et la valeur à supprimer
+        };
+
+        tag.appendChild(removeButton);
+        this.containerTags.appendChild(tag);
+      });
+    });
   }
 
   // Fonction qui parcourt les ingrédients
