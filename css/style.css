@@ -165,6 +165,23 @@ header h1 {
     margin: 30px 0px 15px 0px;
 }
 
+.listesIngredients_recettes {
+  list-style-type: none;
+  font-size: 0.9em;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 2 colonnes */
+  gap: 10px; /* Espace entre les colonnes */
+}
+
+.ingredients_recettes {
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.ingredients_quantités {
+  color: var(--quantity_card);
+}
+
 /*** Dropdown ***/
 /* Container du dropdown */
 .dropdown {
@@ -253,6 +270,18 @@ header h1 {
     color: var(--searchbar_dropdown);
     pointer-events: none; /* Pour cliquer à travers l'icône */
   }
+
+  .clear-icon {
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--searchbar_dropdown);
+    cursor: pointer;
+}
   
   /* Style de la liste */
   .dropdown-content ul {
@@ -273,17 +302,14 @@ header h1 {
   }
 
   /*** Tags ***/
-  .tag {
+  .tag-style {
     display: inline-flex;
     align-items: center;
     padding: 5px 10px;
-    margin-left: 40px;
+    margin: 20px 40px 0px 40px;
     border-radius: 5px;
     font-size: 14px;
     color: white;
-}
-
-  .tag-style {
     background-color: var(--background_tag);
     color: var(--primary);
     padding: 14px 16px;
@@ -292,9 +318,11 @@ header h1 {
 
 .remove-tag {
     margin-left: 40px;
+    margin-top: 2px;
     background: none;
     border: none;
     color: var(--primary);
     font-weight: bold;
     cursor: pointer;
+    font-size: 20px;
 }

@@ -88,7 +88,6 @@ filterRecipes() {
         return hasIngredients && hasAppliance && hasUstensils;
     }); 
     }
-
 }
 
 // Objectifs :

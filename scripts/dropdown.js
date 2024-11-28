@@ -58,6 +58,20 @@ class Dropdown {
             // Bascule l'affichage du contenu et la rotation de la flèche
             dropdownContent.classList.toggle("show");
             arrowRotate.classList.toggle("rotate");
+
+            // Ajouter ou retirer l'écouteur de clic global
+            if (dropdownContent.classList.contains("show")) {
+                this.registerOutsideClickListener(divDropdown);
+            } else {
+                this.unregisterOutsideClickListener();
+            }
+        });
+
+        // Ajout de la fonctionnalité de recherche avec la croix
+        this.makeSearchBarClearable(searchBar, () => {
+            this.filterItems(""); // Réinitialiser la liste si la barre est effacée
+            dropdownList.innerHTML = this.createListItemsHTML(this.filteredItems); // Mise à jour des items
+            this.addItemClickListeners(dropdownList); // Réajouter les listeners
         });
 
         // Écoute l'entrée de recherche
@@ -69,6 +83,31 @@ class Dropdown {
 
         // Ajoute les écouteurs de clic sur les items
         this.addItemClickListeners(dropdownList);
+    }
+
+    // Fonction pour créer la croix et créer son comportement
+    makeSearchBarClearable(searchBar, clearCallback) {
+        const clearIcon = document.createElement("button");
+        clearIcon.classList.add("clear-icon");
+        clearIcon.style.display = "none"; // Masqué par défaut
+        clearIcon.innerHTML = "&times;";
+
+        searchBar.parentElement.appendChild(clearIcon);
+
+        searchBar.addEventListener("input", () => {
+            if (searchBar.value.trim() !== "") {
+                clearIcon.style.display = "inline"; // Afficher la croix
+            } else {
+                clearIcon.style.display = "none"; // Masquer la croix
+                clearCallback(); // Appeler le callback si la recherche est effacée
+            }
+        });
+
+        clearIcon.addEventListener("click", () => {
+            searchBar.value = ""; // Effacer le contenu
+            clearIcon.style.display = "none"; // Masquer la croix
+            clearCallback(); // Appeler le callback pour réinitialiser la recherche
+        });
     }
         
     filterItems(searchTerm) {
@@ -90,5 +129,31 @@ class Dropdown {
             });
         });
     }
-              
+
+    // Gestion des clics en dehors du dropdown
+    registerOutsideClickListener(divDropdown) {
+        const outsideClickListener = (event) => {
+            if (!divDropdown.contains(event.target)) {
+                this.closeDropdown(divDropdown);
+                this.unregisterOutsideClickListener();
+            }
+        };
+        document.addEventListener("click", outsideClickListener);
+        this.outsideClickListener = outsideClickListener; // Sauvegarder pour pouvoir le retirer
+    }
+
+    unregisterOutsideClickListener() {
+        if (this.outsideClickListener) {
+            document.removeEventListener("click", this.outsideClickListener);
+            this.outsideClickListener = null;
+        }
+    }
+
+    closeDropdown(divDropdown) {
+        const dropdownContent = divDropdown.querySelector(".dropdown-content");
+        const arrowRotate = divDropdown.querySelector(".arrow");
+
+        dropdownContent.classList.remove("show");
+        arrowRotate.classList.remove("rotate");
+    }
 }

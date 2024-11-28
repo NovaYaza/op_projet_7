@@ -32,7 +32,7 @@ class Vue {
                 <p class="recipe_description">${recipe.description}</p>
                 <ul id="ingredients-list"></ul>
                 <p class="keypoint_recette">INGRÉDIENTS</p>
-                <ul>${this.afficherIngredients(recipe.ingredients)}</ul>
+                <ul class="listesIngredients_recettes">${this.afficherIngredients(recipe.ingredients)}</ul>
             </div>
         `;
       this.container_recipes.appendChild(div);
@@ -78,15 +78,19 @@ class Vue {
     let ingredientsHTML = "";
     ingredients.forEach((ingredient) => {
       if (ingredient.quantity) {
-        ingredientsHTML += `<li>${ingredient.ingredient}</li>
-                          <li>${ingredient.quantity} ${
+        ingredientsHTML += `<div>
+                              <li class="ingredients_recettes">${ingredient.ingredient}</li>
+                              <li class="ingredients_quantités">${ingredient.quantity} ${
           ingredient.unit ? ingredient.unit + " " : ""
         }</li>
+        </div>
             `;
       } else {
         // Si pas de quantité ou d'unité
-        ingredientsHTML += `<li>${ingredient.ingredient}</li>
-                          <li>-</li>
+        ingredientsHTML += `<div>
+                              <li class="ingredients_recettes">${ingredient.ingredient}</li>
+                              <li class="ingredients_quantités">-</li>
+                            </div>
             `;
       }
     });
