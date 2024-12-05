@@ -11,12 +11,20 @@ class VueModel {
         let appliancesList = model.getAppliancesList(recipes);
 
         // Appel initial pour afficher les dropdowns
-        let dropdownIngredients = new Dropdown("Ingrédients", ingredientsList, (typeDropdown, value) => {this.addFilterChoice(typeDropdown, value)});
-        let dropdownAppliances = new Dropdown("Appareils", appliancesList, (typeDropdown, value) => {this.addFilterChoice(typeDropdown, value)});
-        let dropdownUstensils = new Dropdown("Ustensiles", ustensilsList, (typeDropdown, value) => {this.addFilterChoice(typeDropdown, value)});
+        this.dropdownIngredients = new Dropdown("Ingrédients", ingredientsList, (typeDropdown, value) => {this.addFilterChoice(typeDropdown, value)});
+        this.dropdownAppliances = new Dropdown("Appareils", appliancesList, (typeDropdown, value) => {this.addFilterChoice(typeDropdown, value)});
+        this.dropdownUstensils = new Dropdown("Ustensiles", ustensilsList, (typeDropdown, value) => {this.addFilterChoice(typeDropdown, value)});
         this.ingredientsFilterList = [];
         this.appliancesFilterList = [];
         this.ustensilsFilterList = [];
+        this.currentSearchTerm = ""; // Stocke le terme de recherche de ma searchbar général
+
+        // Ajouter l'écouteur pour la barre de recherche
+        const searchBar = document.getElementById("search_bar");
+        searchBar.addEventListener("input", () => {
+            this.currentSearchTerm = searchBar.value; // Met à jour le terme de recherche
+            this.updateTagsAndRecipes(); // Met à jour les recettes en fonction des filtres
+        });
     }
 
     addFilterChoice(typeDropdown, value) {
@@ -62,36 +70,152 @@ class VueModel {
             (typeDropdown, value) => this.removeFilterChoice(typeDropdown, value) // Mettre à jour l'affichage des tags après suppression
         );
 
-        // Filtrer les recettes et mettre à jour l'affichage
-        const filteredRecipes = this.filterRecipes();
+        // Filtrer les recettes en fonction des tags et du terme de recherche
+        const filteredRecipes = this.filterRecipes(this.currentSearchTerm);
         this.vue.afficherRecettes(filteredRecipes);
+        this.dropdownIngredients.updateItemsList(this.model.getIngredientsList(filteredRecipes));
+        this.dropdownAppliances.updateItemsList(this.model.getAppliancesList(filteredRecipes));
+        this.dropdownUstensils.updateItemsList(this.model.getUstensilsList(filteredRecipes));
 }
 
-filterRecipes() {
-    return this.recipes.filter(recipe => {
+// Fonction principale de filtrage
+// Fonction principale pour filtrer les recettes en fonction des tags ET du terme de recherche
+filterRecipes(searchTerm = "") {
+    // On filtre les recettes par le terme de recherche
+    const recipesBySearchTerm = this.matchesSearchTerm(searchTerm);
+
+    // On applique les filtres des tags sur les résultats du filtre par terme de recherche
+    return recipesBySearchTerm.filter(recipe => {
         // Vérifier les ingrédients
-        const hasIngredients = this.ingredientsFilterList.every(tag => 
+        const hasIngredients = this.ingredientsFilterList.every(tag =>
             recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase() === tag.toLowerCase())
         );
 
         // Vérifier l'appareil
-        const hasAppliance = this.appliancesFilterList.every(tag => 
+        const hasAppliance = this.appliancesFilterList.every(tag =>
             recipe.appliance.toLowerCase() === tag.toLowerCase()
         );
 
         // Vérifier les ustensiles
-        const hasUstensils = this.ustensilsFilterList.every(tag => 
+        const hasUstensils = this.ustensilsFilterList.every(tag =>
             recipe.ustensils.some(ustensil => ustensil.toLowerCase() === tag.toLowerCase())
         );
 
-        // Retourner true si tous les critères sont remplis
+        // Retourner true si la recette correspond à tous les filtres
         return hasIngredients && hasAppliance && hasUstensils;
-    }); 
-    }
+    });
 }
 
-// Objectifs :
-    // 
+// Fonction pour filtrer les recettes en fonction du terme de recherche
+matchesSearchTerm(searchTerm) {
+    const lowerSearchTerm = searchTerm.toLowerCase();
+
+    // On utilise filter pour effectuer le tri par recherche dans le nom, la description ou les ingrédients
+    return this.recipes.filter(recipe => {
+        return (
+            recipe.name.toLowerCase().includes(lowerSearchTerm) ||
+            recipe.description.toLowerCase().includes(lowerSearchTerm) ||
+            recipe.ingredients.some(ingredient =>
+                ingredient.ingredient.toLowerCase().includes(lowerSearchTerm)
+            )
+        );
+    });
+}
+}
+
+// Avec une boucle for()
+/* matchesSearchTerm(searchTerm) {
+    const lowerSearchTerm = searchTerm.toLowerCase();
+    const filteredRecipes = [];
+
+    // On utilise une boucle for pour parcourir les recettes
+    for (let i = 0; i < this.recipes.length; i++) {
+        const recipe = this.recipes[i];
+
+        // On verifie si le terme de recherche est présent dans le nom, la description ou les ingrédients de la recette
+        if (
+            recipe.name.toLowerCase().includes(lowerSearchTerm) ||
+            recipe.description.toLowerCase().includes(lowerSearchTerm) ||
+            recipe.ingredients.some(ingredient =>
+                ingredient.ingredient.toLowerCase().includes(lowerSearchTerm)
+            )
+        ) {
+            // On ajoute la recette filtrée à la liste des résultats
+            filteredRecipes.push(recipe);
+        }
+    }
+
+    return filteredRecipes;
+} */
+
+// Filtrer avec des boucles natives
+/* filterRecipes(searchTerm = "") {
+    const filteredRecipes = [];
+
+    // Parcourir toutes les recettes
+    for (let i = 0; i < this.recipes.length; i++) {
+        const recipe = this.recipes[i];
+
+        // Vérifier si la recette correspond à la recherche
+        const searchMatch = recipe.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                            recipe.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                            recipe.ingredients.some(ingredient =>
+                                ingredient.ingredient.toLowerCase().includes(searchTerm.toLowerCase()));
+
+        // Vérification des filtres d'ingrédients
+        let hasIngredients = true;
+        for (let j = 0; j < this.ingredientsFilterList.length; j++) {
+            const tag = this.ingredientsFilterList[j];
+            let foundIngredient = false;
+            for (let k = 0; k < recipe.ingredients.length; k++) {
+                const ingredient = recipe.ingredients[k].ingredient.toLowerCase();
+                if (ingredient === tag.toLowerCase()) {
+                    foundIngredient = true;
+                    break;
+                }
+            }
+            if (!foundIngredient) {
+                hasIngredients = false;
+                break;
+            }
+        }
+
+        // Vérification de l'appareil
+        let hasAppliance = true;
+        for (let j = 0; j < this.appliancesFilterList.length; j++) {
+            const tag = this.appliancesFilterList[j];
+            if (recipe.appliance.toLowerCase() !== tag.toLowerCase()) {
+                hasAppliance = false;
+                break;
+            }
+        }
+
+        // Vérification des ustensiles
+        let hasUstensils = true;
+        for (let j = 0; j < this.ustensilsFilterList.length; j++) {
+            const tag = this.ustensilsFilterList[j];
+            let foundUstensil = false;
+            for (let k = 0; k < recipe.ustensils.length; k++) {
+                const ustensil = recipe.ustensils[k].toLowerCase();
+                if (ustensil === tag.toLowerCase()) {
+                    foundUstensil = true;
+                    break;
+                }
+            }
+            if (!foundUstensil) {
+                hasUstensils = false;
+                break;
+            }
+        }
+
+        // Ajouter la recette si elle correspond à tous les critères
+        if (searchMatch && hasIngredients && hasAppliance && hasUstensils) {
+            filteredRecipes.push(recipe);
+        }
+    }
+
+    return filteredRecipes;
+} */ 
 
 
 /* // Si le type de dropdown est "Ingrédients"

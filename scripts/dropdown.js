@@ -5,6 +5,7 @@ class Dropdown {
         
         this.title = title;
         this.listItems = listItems;
+        this.divDropdown = null;
         this.filteredItems = listItems; // Liste des éléments filtrés
         this.callbackFunction = callbackFunction;
 
@@ -15,10 +16,10 @@ class Dropdown {
     createDropdown() {
 
         // Création du dropdown
-        const divDropdown = document.createElement("div");
-        divDropdown.classList.add("dropdown");
+        this.divDropdown = document.createElement("div");
+        this.divDropdown.classList.add("dropdown");
 
-        divDropdown.innerHTML = `
+        this.divDropdown.innerHTML = `
                 <button class="dropdown-btn">
                     ${this.title}
                     <span class="arrow"><i class="fa-solid fa-chevron-down"></i></span>
@@ -28,16 +29,24 @@ class Dropdown {
                         <input type="text" class="search-bar">
                         <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
                     </div>
-                    <ul class="dropdown-list liste-itemDropdown">${this.createListItemsHTML(this.filteredItems)}</ul>
+                    <ul class="dropdown-list liste-itemDropdown"></ul>
                 </div>
         `;
-        this.container_dropdown.appendChild(divDropdown);
-        this.addListeners(divDropdown);
+        this.container_dropdown.appendChild(this.divDropdown);
+        this.updateItemsList(this.filteredItems);
+        this.addListeners(this.divDropdown);
     }
 
-    createListItemsHTML(items) {
+    updateItemsList(items) {
+        let dropdownList = this.divDropdown.querySelector(".dropdown-list");
+
         // Crée une liste d'éléments HTML à partir de la liste fournie
-        return items.map(item => `<li class="dropdown-item">${item}</li>`).join("");
+        let listItems = items.map(item => `<li class="dropdown-item">${item}</li>`).join("");
+        let ul = this.divDropdown.querySelector('.liste-itemDropdown');
+        ul.innerHTML = listItems;
+
+        // Ajoute les écouteurs de clic sur les items
+        this.addItemClickListeners(dropdownList);
     }
 
     // Ajout d'un écouteur d'évènement pour ouvrir et fermer le dropdown lorsqu'on clique dessus
@@ -70,19 +79,16 @@ class Dropdown {
         // Ajout de la fonctionnalité de recherche avec la croix
         this.makeSearchBarClearable(searchBar, () => {
             this.filterItems(""); // Réinitialiser la liste si la barre est effacée
-            dropdownList.innerHTML = this.createListItemsHTML(this.filteredItems); // Mise à jour des items
-            this.addItemClickListeners(dropdownList); // Réajouter les listeners
+            this.updateItemsList(this.filteredItems); // Mise à jour des items
+            this.addItemClickListeners(dropdownList); // Réajoute les listeners
         });
 
         // Écoute l'entrée de recherche
         searchBar.addEventListener("input", () => {
             this.filterItems(searchBar.value); // Filtrer les éléments selon la recherche
-            dropdownList.innerHTML = this.createListItemsHTML(this.filteredItems); // Met à jour la liste affichée
+            this.updateItemsList(this.filteredItems); // Met à jour la liste affichée
             this.addItemClickListeners(dropdownList); // Ajoute des listeners de clic même après mise à jour (modification) de la liste des items
         });
-
-        // Ajoute les écouteurs de clic sur les items
-        this.addItemClickListeners(dropdownList);
     }
 
     // Fonction pour créer la croix et créer son comportement
@@ -143,8 +149,8 @@ class Dropdown {
     }
 
     unregisterOutsideClickListener() {
-        if (this.outsideClickListener) {
-            document.removeEventListener("click", this.outsideClickListener);
+        if (this.outsideClickListener) { // Si un écouteur est enregistré
+            document.removeEventListener("click", this.outsideClickListener); // Supprime l'écouteur
             this.outsideClickListener = null;
         }
     }
