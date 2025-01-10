@@ -123,25 +123,8 @@ filterRecipes(searchTerm = "") {
     });
 }
 
-// Fonction pour filtrer les recettes en fonction du terme de recherche
-matchesSearchTerm(searchTerm) {
-    const lowerSearchTerm = searchTerm.toLowerCase();
-
-    // On utilise filter pour effectuer le tri par recherche dans le nom, la description ou les ingrédients
-    return this.recipes.filter(recipe => {
-        return (
-            recipe.name.toLowerCase().includes(lowerSearchTerm) ||
-            recipe.description.toLowerCase().includes(lowerSearchTerm) ||
-            recipe.ingredients.some(ingredient =>
-                ingredient.ingredient.toLowerCase().includes(lowerSearchTerm)
-            )
-        );
-    });
-}
-}
-
 // Avec une boucle for()
-/* matchesSearchTerm(searchTerm) {
+matchesSearchTerm(searchTerm) {
     const lowerSearchTerm = searchTerm.toLowerCase();
     const filteredRecipes = [];
 
@@ -163,4 +146,5 @@ matchesSearchTerm(searchTerm) {
     }
 
     return filteredRecipes;
-} */
+}
+}
