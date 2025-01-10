@@ -6,13 +6,11 @@ class Model {
             let ingredients = recipe.ingredients;
             for (const ingredient of ingredients) {
                 const ingredientName = ingredient.ingredient.toLowerCase();
-                /* console.log(ingredient.ingredient); */
                 if (newIngredientsList.indexOf(ingredientName) == -1) {
                     newIngredientsList.push(ingredientName);
                 }
             }
         }
-        /* console.log(newIngredientsList); */
         return newIngredientsList;
     }
 
@@ -27,7 +25,6 @@ class Model {
                 }
             });
         }
-        /* console.log(newUstensilsList); */
         return newUstensilsList;
     }
 
@@ -40,7 +37,6 @@ class Model {
                     newAppliancesList.push(applianceName);
                 }
         }
-        /* console.log(newAppliancesList); */
         return newAppliancesList;
     }
     

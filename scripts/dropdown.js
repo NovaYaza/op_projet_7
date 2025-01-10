@@ -130,7 +130,6 @@ class Dropdown {
         const items = dropdownList.querySelectorAll(".dropdown-item");
         items.forEach(item => {
             item.addEventListener("click", () => {
-                console.log(item.textContent); // Affiche le texte de l'élément dans la console
                 this.callbackFunction(this.title, item.textContent);
             });
         });

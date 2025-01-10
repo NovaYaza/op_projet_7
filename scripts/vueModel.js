@@ -18,12 +18,32 @@ class VueModel {
         this.appliancesFilterList = [];
         this.ustensilsFilterList = [];
         this.currentSearchTerm = ""; // Stocke le terme de recherche de ma searchbar général
-
+        
         // Ajouter l'écouteur pour la barre de recherche
         const searchBar = document.getElementById("search_bar");
+        const clearIcon = document.createElement("button"); // Ajouter un bouton pour la croix
+        clearIcon.classList.add("clear-icon-mainsearchbar");
+        clearIcon.innerHTML = "&times;";
+        clearIcon.style.display = "none"; // Masqué par défaut
+        searchBar.parentElement.appendChild(clearIcon); // Ajouter la croix dans le DOM
+
         searchBar.addEventListener("input", () => {
             this.currentSearchTerm = searchBar.value; // Met à jour le terme de recherche
             this.updateTagsAndRecipes(); // Met à jour les recettes en fonction des filtres
+            
+            // Afficher ou masquer la croix en fonction de la saisie
+            if (searchBar.value.trim() !== "") {
+                clearIcon.style.display = "inline";
+            } else {
+                clearIcon.style.display = "none";
+            }
+        });
+
+        clearIcon.addEventListener("click", () => {
+            searchBar.value = ""; // Effacer la barre de recherche
+            clearIcon.style.display = "none"; // Masquer la croix
+            this.currentSearchTerm = ""; // Réinitialiser le terme de recherche
+            this.updateTagsAndRecipes(); // Mettre à jour les recettes
         });
     }
 
@@ -31,15 +51,12 @@ class VueModel {
         // Si le type de dropdown est "Ingrédients"
         if (typeDropdown === "Ingrédients" && !this.ingredientsFilterList.includes(value)) {
             this.ingredientsFilterList.push(value);
-            console.log(this.ingredientsFilterList);
         // Si le type de dropdown est "Appareils"
         } else if (typeDropdown === "Appareils" && !this.appliancesFilterList.includes(value)) {
             this.appliancesFilterList.push(value);
-            console.log(this.appliancesFilterList);
         // Si le type de dropdown est "Ustensiles"
         } else if (typeDropdown === "Ustensiles" && !this.ustensilsFilterList.includes(value)) {
             this.ustensilsFilterList.push(value);
-            console.log(this.ustensilsFilterList);
         }
         
         // Appel à la fonction pour afficher les tags
@@ -146,109 +163,4 @@ matchesSearchTerm(searchTerm) {
     }
 
     return filteredRecipes;
-} */
-
-// Filtrer avec des boucles natives
-/* filterRecipes(searchTerm = "") {
-    const filteredRecipes = [];
-
-    // Parcourir toutes les recettes
-    for (let i = 0; i < this.recipes.length; i++) {
-        const recipe = this.recipes[i];
-
-        // Vérifier si la recette correspond à la recherche
-        const searchMatch = recipe.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                            recipe.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                            recipe.ingredients.some(ingredient =>
-                                ingredient.ingredient.toLowerCase().includes(searchTerm.toLowerCase()));
-
-        // Vérification des filtres d'ingrédients
-        let hasIngredients = true;
-        for (let j = 0; j < this.ingredientsFilterList.length; j++) {
-            const tag = this.ingredientsFilterList[j];
-            let foundIngredient = false;
-            for (let k = 0; k < recipe.ingredients.length; k++) {
-                const ingredient = recipe.ingredients[k].ingredient.toLowerCase();
-                if (ingredient === tag.toLowerCase()) {
-                    foundIngredient = true;
-                    break;
-                }
-            }
-            if (!foundIngredient) {
-                hasIngredients = false;
-                break;
-            }
-        }
-
-        // Vérification de l'appareil
-        let hasAppliance = true;
-        for (let j = 0; j < this.appliancesFilterList.length; j++) {
-            const tag = this.appliancesFilterList[j];
-            if (recipe.appliance.toLowerCase() !== tag.toLowerCase()) {
-                hasAppliance = false;
-                break;
-            }
-        }
-
-        // Vérification des ustensiles
-        let hasUstensils = true;
-        for (let j = 0; j < this.ustensilsFilterList.length; j++) {
-            const tag = this.ustensilsFilterList[j];
-            let foundUstensil = false;
-            for (let k = 0; k < recipe.ustensils.length; k++) {
-                const ustensil = recipe.ustensils[k].toLowerCase();
-                if (ustensil === tag.toLowerCase()) {
-                    foundUstensil = true;
-                    break;
-                }
-            }
-            if (!foundUstensil) {
-                hasUstensils = false;
-                break;
-            }
-        }
-
-        // Ajouter la recette si elle correspond à tous les critères
-        if (searchMatch && hasIngredients && hasAppliance && hasUstensils) {
-            filteredRecipes.push(recipe);
-        }
-    }
-
-    return filteredRecipes;
-} */ 
-
-
-/* // Si le type de dropdown est "Ingrédients"
-if (typeDropdown === "Ingrédients") {
-    // Vérifie si l'ingrédient n'est pas déjà dans ingredientsFilterList
-    if (!this.ingredientsFilterList.includes(value)) {
-        // Ajoute l'ingrédient dans le tableau
-        this.ingredientsFilterList.push(value);
-        console.log(`Ingrédient ajouté : ${value}`);
-        console.log("Liste des ingrédients filtrés :", this.ingredientsFilterList);
-    } else {
-        console.log(`L'ingrédient "${value}" est déjà dans la liste.`);
-    }
-// Si le type de dropdown est "Appareils"
-} else if (typeDropdown === "Appareils") {
-    // Vérifie si l'appareil n'est pas déjà dans appliancesFilterList
-    if (!this.appliancesFilterList.includes(value)) {
-        // Ajoute l'ingrédient dans le tableau
-        this.appliancesFilterList.push(value);
-        console.log(`Appareil ajouté : ${value}`);
-        console.log("Liste des appareils filtrés :", this.appliancesFilterList);
-    } else {
-        console.log(`L'appareil "${value}" est déjà dans la liste.`);
-    }
-// Si le type de dropdown est "Ustensiles"
-} else if (typeDropdown === "Ustensiles") {
-    // Vérifie si l'ustensile n'est pas déjà dans ustensilsFilterList
-    if (!this.ustensilsFilterList.includes(value)) {
-        // Ajoute l'ingrédient dans le tableau
-        this.ustensilsFilterList.push(value);
-        console.log(`Ustensile ajouté : ${value}`);
-        console.log("Liste des ustensiles filtrés :", this.ustensilsFilterList);
-    } else {
-        console.log(`L'ustensile "${value}" est déjà dans la liste.`);
-    }
 } */
