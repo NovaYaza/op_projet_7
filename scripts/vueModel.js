@@ -139,28 +139,3 @@ matchesSearchTerm(searchTerm) {
     });
 }
 }
-
-// Avec une boucle for()
-/* matchesSearchTerm(searchTerm) {
-    const lowerSearchTerm = searchTerm.toLowerCase();
-    const filteredRecipes = [];
-
-    // On utilise une boucle for pour parcourir les recettes
-    for (let i = 0; i < this.recipes.length; i++) {
-        const recipe = this.recipes[i];
-
-        // On verifie si le terme de recherche est présent dans le nom, la description ou les ingrédients de la recette
-        if (
-            recipe.name.toLowerCase().includes(lowerSearchTerm) ||
-            recipe.description.toLowerCase().includes(lowerSearchTerm) ||
-            recipe.ingredients.some(ingredient =>
-                ingredient.ingredient.toLowerCase().includes(lowerSearchTerm)
-            )
-        ) {
-            // On ajoute la recette filtrée à la liste des résultats
-            filteredRecipes.push(recipe);
-        }
-    }
-
-    return filteredRecipes;
-} */
